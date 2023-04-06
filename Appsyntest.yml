@@ -1,0 +1,162 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: AppSync API with a DynamoDB data source for EBT ISA
+Parameters:
+  AppCI:
+    Type: String
+    Default: ebt-isa
+  UpperCaseApplicationCI:
+    Type: String
+    Default: EBT
+  AppENV:
+    Type: String
+    Default: DEV            
+Resources:
+  ApitableServiceRoleInFlightService:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AppCI}-inflight-service-api"
+#      PermissionsBoundary: !Sub 'arn:aws:iam::${AWS::AccountId}:policy/AppPolicy_${UpperCaseApplicationCI}'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal: 
+              Service: 
+                - appsync.amazonaws.com
+                - dynamodb.amazonaws.com
+                - lambda.amazonaws.com
+                - s3.amazonaws.com
+                - events.amazonaws.com
+
+  ApitableServiceRoleDefaultPolicyInFlightService:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - dynamodb:BatchGetItem
+              - dynamodb:BatchWriteItem
+              - dynamodb:ConditionCheckItem
+              - dynamodb:DeleteItem
+              - dynamodb:DescribeTable
+              - dynamodb:GetItem
+              - dynamodb:GetRecords
+              - dynamodb:GetShardIterator
+              - dynamodb:PutItem
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:UpdateItem
+            Effect: Allow
+            Resource: 
+              - !Sub arn:aws:dynamodb:*:${AWS::AccountId}:table/*/
+              - !Sub arn:aws:dynamodb:*:${AWS::AccountId}:table/*/index/*
+      ManagedPolicyName: !Sub ${AppCI}-DynamoDB-Policy-${AWS::Region}
+      Roles:
+        - Ref: ApitableServiceRoleInFlightService 
+
+  ApiLambdaServiceRoleDefaultPolicyInFlightService:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - lambda:InvokeFunction
+              - lambda:CreateEventSourceMapping
+              - lambda:DeleteEventSourceMapping
+              - lambda:GetEventSourceMapping
+              - lambda:UpdateEventSourceMapping
+              - lambda:UpdateFunctionCode
+              - lambda:PutFunctionEventInvokeConfig
+              - lambda:List*
+              - lambda:Create*
+              - lambda:UpdateFunctionCode
+              - lambda:Add*
+              - lambda:Publish*
+              - lambda:UpdateFunctionConfiguration
+              - lambda:DeleteLayerVersion
+              - lambda:DeleteFunction
+              - lambda:RemovePermission
+              - lambda:Put*
+              - lambda:TagResource
+              - lambda:Get*
+            Effect: Allow
+            Resource: 
+              - !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${AppCI}*
+
+      ManagedPolicyName: !Sub ${AppCI}-Lambda-Policy-${AWS::Region}
+      Roles:
+        - Ref: ApitableServiceRoleInFlightService
+
+  ApiCloudWatchServiceRoleDefaultPolicyInFlightService:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Action:
+            - events:*
+            - logs:*
+          Effect: Allow
+          Resource: "*"
+      ManagedPolicyName: !Sub ${AppCI}-Cloudwatch-Policy-${AWS::Region}
+      Roles:
+        - Ref: ApitableServiceRoleInFlightService 
+
+  ApiKMSServiceRoleDefaultPolicyInFlightService:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Action:
+          # add roles for Cloud Watch 
+            - kms:Encrypt
+            - kms:Decrypt
+            - kms:ReEncrypt*
+            - kms:GenerateDataKey*
+            - kms:DescribeKey" 
+          Effect: Allow
+          Resource: "*"
+      ManagedPolicyName: !Sub ${AppCI}-KMS-Policy-${AWS::Region}
+      Roles:
+        - Ref: ApitableServiceRoleInFlightService
+
+  ApiSMServiceRoleDefaultPolicyInFlightService:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Action:
+          # add roles for Cloud Watch 
+            - secretsmanager:GetSecretValue
+            - secretsmanager:DescribeSecret
+          Effect: Allow
+          Resource: 
+            - !Sub "arn:aws:secretsmanager:*:${AWS::AccountId}:secret:${AppCI}*"
+      ManagedPolicyName: !Sub ${AppCI}-SecretManager-Policy-${AWS::Region}
+      Roles:
+        - Ref: ApitableServiceRoleInFlightService
+  
+  ApiS3ServiceRoleDefaultPolicyInFlightService:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Managed policy to allow AWS AppSync to access the s3.
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:Get*
+              - s3:List*
+              - s3:Put*
+              - s3:Update*
+              - s3:Create*
+              - s3:DeleteObject
+            Resource: !Sub 'arn:aws:s3:::${AppCI}-*'
+      ManagedPolicyName: !Sub ${AppCI}-S3-Policy-${AWS::Region}
+      Roles:
+        - Ref: ApitableServiceRoleInFlightService
