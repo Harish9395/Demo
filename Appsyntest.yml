@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AppSync API with a DynamoDB data source for EBT ISA
+Description: AppSync API with a DynamoDB data source for EBT ISA.
 Parameters:
   AppCI:
     Type: String
