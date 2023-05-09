@@ -1,0 +1,40 @@
+pipeline:
+  name: Testcft1
+  identifier: Testcft1
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: CreateS3Bucket
+        identifier: CreateS3Bucket
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: CreateStack
+                  name: CreateStackfors3
+                  identifier: CreateStackfors3
+                  spec:
+                    provisionerIdentifier: Aws_s3
+                    configuration:
+                      stackName: testings3
+                      connectorRef: Aws
+                      region: us-east-2
+                      templateFile:
+                        type: Remote
+                        spec:
+                          store:
+                            type: Github
+                            spec:
+                              paths:
+                                - /harnesstest.yml
+                              connectorRef: github
+                              repoName: Demo
+                              gitFetchType: Branch
+                              branch: main
+                      roleArn: ""
+                  timeout: 10m
+        tags: {}
