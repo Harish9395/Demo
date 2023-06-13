@@ -15,7 +15,7 @@ pipeline:
             steps:
               - step:
                   type: CreateStack
-                  name: CreateStack_1
+                  name: CreateStack_1dsa
                   identifier: CreateStack_1
                   timeout: 10m
                   spec:
@@ -23,7 +23,7 @@ pipeline:
                     configuration:
                       stackName: testings3bucket
                       connectorRef: account.Aws_Login
-                      region: us-east-2
+                      region: us-east-1
                       templateFile:
                         type: Remote
                         spec:
