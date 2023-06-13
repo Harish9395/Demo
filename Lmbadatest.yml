@@ -1,0 +1,12 @@
+Resources:
+  LambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: lambdaexampletesting
+      Handler: test_index.handler
+      Runtime: nodejs14.x
+      Role: 'arn:aws:iam::938152492896:role/lambdas3role'
+      MemorySize: 1024
+      Code:
+        S3Bucket: mytestlambdas3code
+        S3Key: test.zip
