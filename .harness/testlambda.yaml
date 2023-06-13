@@ -1,0 +1,40 @@
+pipeline:
+  name: testlambda
+  identifier: testlambda
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: createlambda
+        identifier: createlambda
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: CreateStack
+                  name: CreateStack_1
+                  identifier: CreateStack_1
+                  timeout: 10m
+                  spec:
+                    provisionerIdentifier: testlambda
+                    configuration:
+                      stackName: testilambdastack123
+                      connectorRef: Aws
+                      region: us-east-2
+                      templateFile:
+                        type: Remote
+                        spec:
+                          store:
+                            type: Github
+                            spec:
+                              paths:
+                                - Lmbadatest.yml
+                              connectorRef: github
+                              repoName: Demo
+                              gitFetchType: Branch
+                              branch: main
+                      roleArn: ""
+        tags: {}
