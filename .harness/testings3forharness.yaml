@@ -43,7 +43,7 @@ pipeline:
                             spec:
                               connectorRef: github
                               paths:
-                                - s3params.json
+                                - https://github.com/Harish9395/Demo/blob/main/s3params.json
                               repoName: https://github.com/Harish9395/Demo/blob/main/s3params.json
                               gitFetchType: Branch
                               branch: main
