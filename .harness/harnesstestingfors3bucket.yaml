@@ -1,0 +1,41 @@
+pipeline:
+  name: harnesstestingfors3bucket
+  identifier: harnesstestingfors3bucket
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Createstackfors3
+        identifier: Createstackfors3
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: CreateStack
+                  name: CreateStack_1
+                  identifier: CreateStack_1
+                  spec:
+                    provisionerIdentifier: s3bucketcreation
+                    configuration:
+                      stackName: testingstackfors3usings3bucket
+                      connectorRef: Aws
+                      region: us-east-2
+                      templateFile:
+                        type: S3URL
+                        spec:
+                          templateUrl: https://testingforharness.s3.us-east-2.amazonaws.com/CF+test/test.yaml
+                      roleArn: ""
+                      parameters:
+                        - identifier: Parameter
+                          store:
+                            type: S3Url
+                            spec:
+                              connectorRef: Aws
+                              urls:
+                                - s3://testingforharness/CF test/testparams.json
+                              region: us-east-2
+                  timeout: 10m
+        tags: {}
