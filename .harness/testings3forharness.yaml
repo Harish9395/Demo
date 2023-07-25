@@ -1,0 +1,51 @@
+pipeline:
+  name: testings3forharness
+  identifier: testings3forharness
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: createstackstage
+        identifier: createstackstage
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: CreateStack
+                  name: CreateStack_1
+                  identifier: CreateStack_1
+                  spec:
+                    provisionerIdentifier: s3bucketcreaation
+                    configuration:
+                      stackName: s3bucketcreationtestingharness
+                      connectorRef: Aws
+                      region: us-east-2
+                      templateFile:
+                        type: Remote
+                        spec:
+                          store:
+                            type: Github
+                            spec:
+                              paths:
+                                - https://github.com/Harish9395/Demo/blob/main/s3bucket.yml
+                              connectorRef: github
+                              repoName: Demo
+                              gitFetchType: Branch
+                              branch: main
+                      roleArn: ""
+                      parameters:
+                        - identifier: s3parmas
+                          store:
+                            type: Github
+                            spec:
+                              connectorRef: github
+                              paths:
+                                - s3params.json
+                              repoName: https://github.com/Harish9395/Demo/blob/main/s3params.json
+                              gitFetchType: Branch
+                              branch: main
+                  timeout: 10m
+        tags: {}
