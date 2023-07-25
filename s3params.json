@@ -1,6 +1,6 @@
 [
     {
         "ParameterKey": "S3BucketName",
-        "ParameterValue": "testingappsyncs3params"
+        "ParameterValue": "testingappsyncs3params12345"
     }
 ]
