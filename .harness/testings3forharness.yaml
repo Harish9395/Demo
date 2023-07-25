@@ -44,7 +44,7 @@ pipeline:
                               connectorRef: github
                               paths:
                                 - https://github.com/Harish9395/Demo/blob/main/s3params.json
-                              repoName: https://github.com/Harish9395/Demo/blob/main/s3params.json
+                              repoName: Demo
                               gitFetchType: Branch
                               branch: main
                   timeout: 10m
