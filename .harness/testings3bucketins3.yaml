@@ -28,14 +28,10 @@ pipeline:
                         spec:
                           templateUrl: https://testingforharness.s3.us-east-2.amazonaws.com/CF+test/test.yaml
                       roleArn: ""
-                      parameters:
-                        - identifier: parameter
-                          store:
-                            type: S3Url
-                            spec:
-                              connectorRef: Aws
-                              urls:
-                                - https://testingforharness.s3.us-east-2.amazonaws.com/CF+test/testparams.json
-                              region: us-east-2
+                      parameters: []
+                      parameterOverrides:
+                        - name: S3BucketName
+                          value: estingappsyncs3params
+                          type: String
                   timeout: 10m
         tags: {}
