@@ -1,0 +1,41 @@
+pipeline:
+  name: testings3bucketins3
+  identifier: testings3bucketins3
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Creates3stackusingparamter
+        identifier: Creates3stackusingparamter
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: CreateStack
+                  name: CreateStack_1
+                  identifier: CreateStack_1
+                  spec:
+                    provisionerIdentifier: createstacks3usings3
+                    configuration:
+                      stackName: creates3stackusings3
+                      connectorRef: Aws
+                      region: us-east-2
+                      templateFile:
+                        type: S3URL
+                        spec:
+                          templateUrl: s3://testingforharness/CF test/test.yaml
+                      roleArn: ""
+                      parameters:
+                        - identifier: parameter
+                          store:
+                            type: S3Url
+                            spec:
+                              connectorRef: Aws
+                              urls:
+                                - s3://testingforharness/CF test/testparams.json
+                              region: us-east-2
+                  timeout: 10m
+        tags: {}
