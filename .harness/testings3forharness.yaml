@@ -43,7 +43,7 @@ pipeline:
                             spec:
                               connectorRef: github
                               paths:
-                                - https://github.com/Harish9395/Demo/blob/main/parameters.json
+                                - Demo/parameters.json
                               repoName: Demo
                               gitFetchType: Branch
                               branch: main
