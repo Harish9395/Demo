@@ -1,0 +1,49 @@
+pipeline:
+  name: testingforgithubss3zip
+  identifier: testingforgithubss3zip
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: Demo
+        build: <+input>
+  stages:
+    - stage:
+        name: GithubClone
+        identifier: GithubClone
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: |-
+                      git clone https://github.com/Harish9395/Demo.git
+                      cd Demo
+                      zip -r Demo.zip .
+                      unzip Demo.zip
+              - step:
+                  type: S3Upload
+                  name: S3Upload_1
+                  identifier: S3Upload_1
+                  spec:
+                    connectorRef: Aws
+                    region: us-east-2
+                    bucket: mytestlambdas3code
+                    sourcePath: Demo
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          caching:
+            enabled: false
