@@ -37,4 +37,14 @@ pipeline:
                               gitFetchType: Branch
                               branch: main
                       roleArn: ""
+              - step:
+                  type: DeleteStack
+                  name: DeleteStack_1
+                  identifier: DeleteStack_1
+                  spec:
+                    configuration:
+                      type: Inherited
+                      spec:
+                        provisionerIdentifier: Delete
+                  timeout: 10m
         tags: {}
