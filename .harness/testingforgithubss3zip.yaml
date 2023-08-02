@@ -25,7 +25,7 @@ pipeline:
                   identifier: Run_1
                   spec:
                     shell: Sh
-                    command: echo "Welcome to Harness CI"
+                    command: aws s3 sync . s3://mycloudformationtemp3234
           platform:
             os: Linux
             arch: Amd64
