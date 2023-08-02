@@ -1,0 +1,43 @@
+pipeline:
+  name: createstackseusingcli
+  identifier: createstackseusingcli
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: Demo
+        build: <+input>
+  stages:
+    - stage:
+        name: GitClone
+        identifier: GitClone
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_2
+                  identifier: Run_2
+                  spec:
+                    shell: Sh
+                    command: |-
+                      aws configure set aws_access_key_id $Accesskey
+                      aws configure set aws_secret_access_key $Secretkey
+                      aws s3 sync . s3://mycloudformationtemp3234
+                      aws cloudformation create-stack --stack-name harishtestsings3 --template-url https://mycloudformationtemp3234.s3.us-east-2.amazonaws.com/s3bucket.yml --parameters s3://mycloudformationtemp3234/Paramass.json
+                    envVariables:
+                      Accesskey: AKIA5U3R675QNZZ2AJET
+                      Secretkey: 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
+          caching:
+            enabled: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
