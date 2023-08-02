@@ -25,20 +25,7 @@ pipeline:
                   identifier: Run_1
                   spec:
                     shell: Sh
-                    command: |-
-                      git clone https://github.com/Harish9395/Demo.git
-                      cd Demo
-                      zip -r Demo.zip .
-                      unzip Demo.zip
-              - step:
-                  type: S3Upload
-                  name: S3Upload_1
-                  identifier: S3Upload_1
-                  spec:
-                    connectorRef: Aws
-                    region: us-east-2
-                    bucket: mytestlambdas3code
-                    sourcePath: Demo
+                    command: echo "Welcome to Harness CI"
           platform:
             os: Linux
             arch: Amd64
