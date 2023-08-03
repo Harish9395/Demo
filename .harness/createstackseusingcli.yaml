@@ -28,7 +28,9 @@ pipeline:
                     command: |-
                       aws configure set aws_access_key_id $Accesskey
                       aws configure set aws_secret_access_key $Secretkey
+                      zip -r Demo .
                       aws s3 sync . s3://mycloudformationtemp3234
+                      Unzip -r Demo .
                       aws cloudformation create-stack --stack-name harishtestsings3 --template-url https://mycloudformationtemp3234.s3.us-east-2.amazonaws.com/Lmbadatest.yml --region us-east-2
                     envVariables:
                       Accesskey: AKIA5U3R675QNZZ2AJET
