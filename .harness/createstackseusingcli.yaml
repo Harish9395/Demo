@@ -29,7 +29,6 @@ pipeline:
                       aws configure set aws_access_key_id $Accesskey
                       aws configure set aws_secret_access_key $Secretkey
                       aws s3 sync . s3://testingzips3bucket 
-                      unzip Demo.zip
                       aws cloudformation create-stack --stack-name harishtestsings31 --template-url https://testingzips3bucket.s3.us-east-2.amazonaws.com/Lmbadatest.yml --region us-east-2
                     envVariables:
                       Accesskey: AKIA5U3R675QNZZ2AJET
