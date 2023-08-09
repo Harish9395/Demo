@@ -35,4 +35,4 @@ pipeline:
                     shell: Sh
                     command: |-
                       mvn clean package
-                      docker build -t harish2195/maven-web-application:2
+                      docker build -t harish2195/maven-web-application:2 .
