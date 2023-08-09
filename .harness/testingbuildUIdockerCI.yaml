@@ -1,0 +1,38 @@
+pipeline:
+  name: testingbuildUIdockerCI
+  identifier: testingbuildUIdockerCI
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: maven-web-application
+        build: <+input>
+  stages:
+    - stage:
+        name: Github
+        identifier: Github
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          caching:
+            enabled: false
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: |-
+                      mvn clean package
+                      docker build -t harish2195/maven-web-application:2
