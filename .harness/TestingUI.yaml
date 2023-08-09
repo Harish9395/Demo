@@ -32,4 +32,4 @@ pipeline:
                   identifier: build_test
                   spec:
                     shell: Sh
-                    command: echo"Hello world"
+                    command: echo "Hi"
