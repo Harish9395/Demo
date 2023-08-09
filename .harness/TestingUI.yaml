@@ -1,0 +1,35 @@
+pipeline:
+  name: TestingUI
+  identifier: TestingUI
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github
+        repoName: maven-web-application
+        build: <+input>
+  stages:
+    - stage:
+        name: TestingBuild
+        identifier: TestingBuild
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: build test
+                  identifier: build_test
+                  spec:
+                    shell: Sh
+                    command: echo"Hello world"
