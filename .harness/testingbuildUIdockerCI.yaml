@@ -36,3 +36,6 @@ pipeline:
                     command: |-
                       mvn clean package
                       docker build -t harish2195/maven-web-application:2 .
+                      pwd 
+                      ls
+                      docker images 
