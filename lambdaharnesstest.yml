@@ -1,7 +1,7 @@
 # Following are the minimum set of parameters required to create an AWS Lambda Function Definition.
 # Please make sure your uploaded manifest file includes all of them.
 
-functionName: <+serviceConfig.serviceDefinition.spec.variables.functionName>
-handler: <+serviceConfig.serviceDefinition.spec.variables.handler>
-role: <+serviceConfig.serviceDefinition.spec.variables.role>
-runtime: <+serviceConfig.serviceDefinition.spec.variables.runtime>
+functionName: lambstesting1
+handler: test_index.handler
+role: arn:aws:iam::938152492896:role/lambdas3role
+runtime: nodejs14.x
