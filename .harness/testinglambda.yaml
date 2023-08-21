@@ -6,8 +6,8 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: deployylambda
-        identifier: deployylambda
+        name: deploy
+        identifier: deploy
         description: ""
         type: Deployment
         spec:
