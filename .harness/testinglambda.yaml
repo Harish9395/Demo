@@ -1,0 +1,51 @@
+pipeline:
+  name: testinglambda
+  identifier: testinglambda
+  projectIdentifier: Test
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: deployylambda
+        identifier: deployylambda
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: AwsLambda
+          service:
+            serviceRef: LmbdaUI
+            serviceInputs:
+              serviceDefinition:
+                type: AwsLambda
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: <+input>
+                      sources: <+input>
+          environment:
+            environmentRef: Dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: Testinglambda
+          execution:
+            steps:
+              - step:
+                  name: Deploy Aws Lambda
+                  identifier: deployawslambda
+                  type: AwsLambdaDeploy
+                  timeout: 10m
+                  spec: {}
+            rollbackSteps:
+              - step:
+                  name: Aws Lambda rollback
+                  identifier: awslambdarollback
+                  type: AwsLambdaRollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
